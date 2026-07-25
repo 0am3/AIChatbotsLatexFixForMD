@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Chatbots LaTeX Fixer for Obsidian Markdown</title>
-  <meta name="description" content="Fix and convert AI chatbot LaTeX mathematical expressions from DeepSeek, Gemini, and ChatGPT to render perfectly in Obsidian Markdown." />
+  <meta name="description" content="Fix and convert AI chatbot LaTeX mathematical expressions from DeepSeek, Gemini, and Claude to render perfectly in Obsidian Markdown." />
   <link rel="stylesheet" href="./styles/theme.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
 </head>
@@ -36,7 +36,7 @@
     <div class="notice-banner">
       <span class="notice-icon">⚠️</span>
       <span class="notice-text">
-        <strong>Official Interfaces Only:</strong> This tool is specifically optimized for responses copied from official chatbot websites (e.g. <em>chat.deepseek.com</em>, <em>gemini.google.com</em>). Unofficial extensions or 3rd-party wrappers may alter markdown output formats.
+        <strong>Official Interfaces Only:</strong> This tool is specifically optimized for responses copied from official chatbot websites (e.g. <em>chat.deepseek.com</em>, <em>claude.ai</em>, <em>gemini.google.com</em>). Unofficial extensions or 3rd-party wrappers may alter markdown output formats.
       </span>
     </div>
 
@@ -48,11 +48,15 @@
         <div class="llm-selector-group" id="llm-selector">
           <button class="llm-btn active" data-llm="deepseek">
             <span>⚡ DeepSeek</span>
-            <span class="badge-pill">Fix Latex</span>
+            <span class="badge-pill">Fix (+1)</span>
+          </button>
+          <button class="llm-btn" data-llm="claude">
+            <span>🧠 Claude</span>
+            <span class="badge-pill">Shift (+3)</span>
           </button>
           <button class="llm-btn" data-llm="gemini">
-            <span>✨ Google Gemini</span>
-            <span class="badge-pill">Passthrough</span>
+            <span>✨ Gemini</span>
+            <span class="badge-pill">Shift (+2)</span>
           </button>
         </div>
       </div>
@@ -108,7 +112,7 @@
           </div>
         </div>
         <div class="editor-textarea-wrapper">
-          <textarea id="input-text" class="code-textarea" placeholder="Paste your AI chatbot response here (e.g. from DeepSeek)..."></textarea>
+          <textarea id="input-text" class="code-textarea" placeholder="Paste your AI chatbot response here (from DeepSeek, Claude, Gemini)..."></textarea>
         </div>
         <div class="editor-footer">
           <span id="input-stats">0 characters | 0 lines</span>
