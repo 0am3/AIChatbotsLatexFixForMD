@@ -44,7 +44,7 @@
     <section class="control-panel">
       <!-- LLM Selector -->
       <div class="panel-card">
-        <span class="card-label">🤖 Select Source AI Chatbot</span>
+        <span class="card-label">🤖 Source AI Chatbot</span>
         <div class="llm-selector-group" id="llm-selector">
           <button class="llm-btn active" data-llm="deepseek">
             <span>⚡ DeepSeek</span>
@@ -59,7 +59,7 @@
 
       <!-- Environment Selector -->
       <div class="panel-card">
-        <span class="card-label">🎯 Target Markdown Environment</span>
+        <span class="card-label">🎯 Target Environment</span>
         <div class="custom-select-wrapper">
           <select id="env-select" class="custom-select">
             <option value="obsidian" selected>💎 Obsidian MD (Standard $$ / $ Math)</option>
@@ -69,13 +69,26 @@
         </div>
       </div>
 
+      <!-- Heading Demoter Selector -->
+      <div class="panel-card">
+        <span class="card-label">🔽 Heading Demoter (Hierarchy Shift)</span>
+        <div class="custom-select-wrapper">
+          <select id="heading-shift-select" class="custom-select">
+            <option value="0">Disabled (Keep Original #)</option>
+            <option value="1" selected>+1 Level (# ➔ ##, ## ➔ ###)</option>
+            <option value="2">+2 Levels (# ➔ ###, ## ➔ ####)</option>
+            <option value="3">+3 Levels (# ➔ ####, ## ➔ #####)</option>
+          </select>
+        </div>
+      </div>
+
       <!-- Quick Action Buttons -->
       <div class="panel-card action-card">
         <button id="btn-paste-clipboard" class="btn-primary">
-          <span>📋 Paste from Clipboard</span>
+          <span>📋 Paste Clipboard</span>
         </button>
         <button id="btn-load-sample" class="btn-secondary" title="Load sample DeepSeek math output to test formatting">
-          <span>🧪 Load DeepSeek Sample</span>
+          <span>🧪 Load Sample</span>
         </button>
       </div>
     </section>

@@ -7,6 +7,7 @@ import katex from 'katex';
 const state = {
   currentLlm: 'deepseek',
   currentEnv: 'obsidian',
+  headingShift: 1, // Default +1 shift for DeepSeek
   inputText: '',
   outputText: ''
 };
@@ -42,6 +43,7 @@ let inputTextarea;
 let outputTextarea;
 let llmButtons;
 let envSelect;
+let headingShiftSelect;
 let btnPaste;
 let btnCopy;
 let btnClear;
@@ -64,6 +66,7 @@ function initElements() {
   outputTextarea = document.getElementById('output-text');
   llmButtons = document.querySelectorAll('.llm-btn');
   envSelect = document.getElementById('env-select');
+  headingShiftSelect = document.getElementById('heading-shift-select');
   btnPaste = document.getElementById('btn-paste-clipboard');
   btnCopy = document.getElementById('btn-copy-output');
   btnClear = document.getElementById('btn-clear-input');
@@ -89,6 +92,14 @@ function initEventListeners() {
       llmButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       state.currentLlm = btn.dataset.llm;
+
+      // Find LLM default heading shift
+      const llmConfig = SUPPORTED_LLMS.find(item => item.id === state.currentLlm);
+      if (llmConfig && llmConfig.defaultHeadingShift !== undefined) {
+        state.headingShift = llmConfig.defaultHeadingShift;
+        headingShiftSelect.value = state.headingShift.toString();
+      }
+
       showToast(`Selected LLM: ${btn.textContent.trim()}`);
       runConversion();
     });
@@ -98,6 +109,13 @@ function initEventListeners() {
   envSelect.addEventListener('change', (e) => {
     state.currentEnv = e.target.value;
     document.getElementById('target-env-label').textContent = `Target: ${e.target.options[e.target.selectedIndex].text.split(' ')[1]} MD`;
+    runConversion();
+  });
+
+  // Heading Demoter selection
+  headingShiftSelect.addEventListener('change', (e) => {
+    state.headingShift = parseInt(e.target.value, 10);
+    showToast(`Heading shift set to +${state.headingShift} levels`);
     runConversion();
   });
 
@@ -148,6 +166,8 @@ function initEventListeners() {
       else b.classList.remove('active');
     });
     state.currentLlm = 'deepseek';
+    state.headingShift = 1;
+    headingShiftSelect.value = '1';
 
     inputTextarea.value = SAMPLE_DEEPSEEK;
     state.inputText = SAMPLE_DEEPSEEK;
@@ -173,7 +193,8 @@ function initEventListeners() {
 }
 
 function runConversion() {
-  const result = transformMarkdown(state.inputText, state.currentLlm, state.currentEnv);
+  const options = { headingShift: state.headingShift };
+  const result = transformMarkdown(state.inputText, state.currentLlm, state.currentEnv, options);
   state.outputText = result;
   outputTextarea.value = result;
 
@@ -197,7 +218,6 @@ function renderPreviewModal() {
     return;
   }
 
-  // Parse Markdown with custom KaTeX math rendering replacement
   let textToRender = state.outputText;
 
   // Replace $$...$$ with block math placeholder

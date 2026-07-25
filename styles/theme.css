@@ -213,11 +213,17 @@ html, body {
 /* Control Panel Grid */
 .control-panel {
   display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.25rem;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
+  .control-panel {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 700px) {
   .control-panel {
     grid-template-columns: 1fr;
   }

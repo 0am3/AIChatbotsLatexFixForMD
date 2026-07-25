@@ -1,11 +1,13 @@
+import { demoteHeadings } from './headingDemoter.js';
+
 /**
- * Google Gemini LaTeX Converter for Obsidian Markdown
+ * Google Gemini LaTeX & Heading Converter for Obsidian Markdown
  *
- * Google Gemini official web output produces clean standard Markdown
- * with $$...$$ display math and $...$ inline math, requiring no modifications.
+ * Gemini output has native LaTeX support, but optionally applies heading demotion if specified.
  */
 
-export function convertGemini(input) {
+export function convertGemini(input, options = {}) {
   if (!input) return '';
-  return input;
+  const headingShift = options.headingShift !== undefined ? options.headingShift : 0;
+  return demoteHeadings(input, headingShift);
 }

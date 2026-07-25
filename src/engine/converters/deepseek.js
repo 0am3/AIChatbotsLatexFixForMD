@@ -1,14 +1,18 @@
+import { demoteHeadings } from './headingDemoter.js';
+
 /**
- * DeepSeek LaTeX Converter for Obsidian Markdown
+ * DeepSeek LaTeX & Heading Converter for Obsidian Markdown
  *
  * Rules:
  * 1. Display math: Replace `\[` ... `\]` with `$$` ... `$$`
  * 2. Inline math: Replace `\(` ... `\)` with `$` ... `$`
- * 3. Preserves code blocks and inline code backticks to prevent unintentional replacements.
+ * 3. Heading Demoter: Shifts heading levels down by headingShift
+ * 4. Preserves code blocks and inline code backticks to prevent unintentional replacements.
  */
 
-export function convertDeepSeek(input) {
+export function convertDeepSeek(input, options = {}) {
   if (!input) return '';
+  const headingShift = options.headingShift !== undefined ? options.headingShift : 1; // Default +1 for DeepSeek
 
   // Tokenize string to separate code blocks / inline code from normal text
   const tokens = [];
@@ -35,9 +39,7 @@ export function convertDeepSeek(input) {
     let text = token.content;
 
     // 1. Convert Display Math: \[ ... \] to $$ ... $$
-    // Handles multi-line or single line display math
     text = text.replace(/\\\[([\s\S]*?)\\\]/g, (fullMatch, equation) => {
-      // Preserve inner newline structure
       return `$$\n${equation.trim()}\n$$`;
     });
 
@@ -50,5 +52,8 @@ export function convertDeepSeek(input) {
     return text;
   });
 
-  return processedTokens.join('');
+  const convertedLatex = processedTokens.join('');
+
+  // Apply Heading Demotion
+  return demoteHeadings(convertedLatex, headingShift);
 }
